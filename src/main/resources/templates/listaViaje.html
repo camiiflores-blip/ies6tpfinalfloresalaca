@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div data-th-if="${correcto}" class="alert alert-success">
+        <span th:text="${correcto}"></span>
+
+    </div>
+    <!-- Encabezado -->
+    <header>
+        <h1>Lista de Viajes</h1>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <section class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>idViaje</th>
+                        <th>Tipo de Viaje</th>
+                        <th>Precio</th>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Vehículo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="Viaje: ${listadoViajes}">
+                     <td th:text="${Viaje.idViaje}"></td>
+                     <td th:text="${Viaje.tipoViaje}"></td>
+                     <td th:text="${Viaje.costo}"></td>
+                    <td th:text="${Viaje.fechaViaje}"></td>
+                    <td th:text="${Viaje.usuario.nombre}"></td>
+                    <td th:text="${Viaje.vehiculo.patente}"></td>
+        </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Botones -->
+        
+            <a href="/realizarViajes" class="btn">VOLVER</a>
+            <a href="/" class="btn">INICIO</a>
+    
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>© 2025 IES N°6 - Todos los derechos reservados</p>
+    </footer>
+
+</body>
+</html>

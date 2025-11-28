@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conductor</title>
+</head>
+<body>
+    <h1>FORMULARIO CONDUCTOR</h1>
+    
+    <form th:object="${nuevoConductor}" th:action="${band}?@{/modificarConductor}:@{/guardarConductor}" method="post">
+        
+        <label for="dni">DNI</label>
+        <input type="text" id="dni" placeholder="ingresar DNI sin puntos ni comas" th:field="*{dni}" required/>
+        <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" style="color: red;">Error DNI</span>
+
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" placeholder="ingresar nombre" th:field="*{nombre}"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: red;">Error Nombre</span>
+
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" placeholder="ingresar apellido" th:field="*{apellido}"/>
+        <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" style="color: red;">Error Apellido</span>
+
+        <label for="fechaNac">Fecha de Nacimiento</label>
+        <input type="date" id="fechaNac" placeholder="ingresar fecha de nacimiento" th:field="*{fechaNac}"/>
+        
+        <label for="estado">Estado Activo</label>
+        <input type="checkbox" id="estado" th:field="*{estado}"/>
+        
+        <br>
+        <button type="submit">INGRESAR CONDUCTOR</button>
+        
+    </form>      
+</body>
+</html>

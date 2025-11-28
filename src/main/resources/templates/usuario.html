@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+</head>
+<body>
+    <h1>USUARIO</HTML></h1>
+    <form data-th-object="${nuevoUsuario}" data-th-action="${band}?@{/modificarUsuario}:@{/guardarUsuario}" method="post" enctype="multipart/form-data">
+          <label>DNI</label>
+          <input type="text" placeholder="ingresar DNI sin puntos ni comas" data-th-field="*{dni}"required/>
+          <label>Nombre</label>
+          <input type="text" placeholder="ingresar nombre" data-th-field="*{nombre}"/>
+          <label>Apellido</label>
+          <input type="text" placeholder="ingresar apellido" data-th-field="*{apellido}"/>
+          <label>Fecha de Nacimiento</label>
+          <input type="date" placeholder="ingresar fecha de nacimiento" data-th-field="*{fechaDeNacimiento}"/>
+          <label>Correo Electronico</label>
+          <input type="text" placeholder="ingresar correo electronico" data-th-field="*{correoElectronico}"/>
+          <label>Telefono</label>
+          <input type="text" placeholder="ingresar telefono" data-th-field="*{telefono}"/>
+          <button type ="submit">INGRESAR USUARIO</button>
+    </form>      
+</body>
+</html>
