@@ -33,15 +33,15 @@ public class ViajeController {
     @GetMapping("/viaje/{patente}")
     public ModelAndView getViaje(@PathVariable("patente") Integer patente) throws Exception {
 
-        // carrito para la vista
+
         ModelAndView carrito = new ModelAndView("viaje");
-        // crea un viaje nuevo
+        
         ies.edu.ar.tpfinalfloresalacaies6.model.Viaje viajeNuevo = viajeService.crearNuevoViaje();
-        // asiga el vehiculando usando la patente
+        
         viajeNuevo.setVehiculo(vehiculoService.buscarUnVehiculo(patente));
-        // agrega al carrito el viaje vacio pero con el vehiculo ya cargado
+        
         carrito.addObject("nuevoViaje", viajeNuevo);
-        // lista de los usuarios
+        
         carrito.addObject("listadoUsuario", usuarioService.listarTodosLosUsuariosActivos());
         return carrito;
     }
@@ -52,24 +52,24 @@ public class ViajeController {
         ModelAndView modelAndView = new ModelAndView("ticketViaje");
 
         try {
-            // 1️⃣ Obtener la patente y el dni desde el objeto viaje
+            
             Integer patente = viajeParaGuardar.getVehiculo().getPatente();
             Integer dni = viajeParaGuardar.getUsuario().getDni();
 
-            // 2️⃣ Volver a buscar los objetos completos en la BD
+            
             viajeParaGuardar.setVehiculo(vehiculoService.buscarUnVehiculo(patente));
             viajeParaGuardar.setUsuario(usuarioService.buscarUnUsuario(dni));
 
-            // 3️⃣ Calcular el precio
+            
             TipoViaje tipoViaje = viajeParaGuardar.getTipoViaje();
             TipoVehiculo tipoVehiculo = viajeParaGuardar.getVehiculo().getTipoVehiculo();
             double precioFinal = viajeService.calcularPrecio(tipoViaje, tipoVehiculo);
             viajeParaGuardar.setCosto(precioFinal);
 
-            // 4️⃣ Guardar el viaje completo
+        
             Viaje viajeGuardado = viajeService.agregarViaje(viajeParaGuardar);
 
-            // 5️⃣ Enviar el viaje guardado a la vista ticket
+            
             modelAndView.addObject("viaje", viajeGuardado);
 
         } catch (Exception e) {
@@ -80,7 +80,7 @@ public class ViajeController {
         return modelAndView;
     }
 
-    // vista para listar los viajes
+    
     @GetMapping("/listarViajes")
     public ModelAndView mostrarViajes() {
         ModelAndView carritoParaMostrarViajes = new ModelAndView("listaViaje");
@@ -88,7 +88,7 @@ public class ViajeController {
         return carritoParaMostrarViajes;
     }
 
-    // vista de los vehiculo para realizar los viajes
+    
     @GetMapping("/realizarViajes")
     public ModelAndView listarviaje() {
         ModelAndView carritoParaMostrarVehiculos = new ModelAndView("realizarViaje");

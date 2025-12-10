@@ -1,12 +1,12 @@
 package ies.edu.ar.tpfinalfloresalacaies6.model;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Column; 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -14,33 +14,33 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Component
-@Entity
+@Component 
+@Entity  
 public class Conductor {
-    @Id
+    @Id  
     private Integer dni;
-    @Column
-    @NotBlank(message = "El nombre es obligatorio")
-    @Size(min = 3, max = 20, message = "El nombre debe tener entre 3 y 20 caracteres")
+    @Column 
+    @NotBlank(message = "El nombre es obligatorio") 
+    @Size(min = 3, max = 20, message = "El nombre debe tener entre 3 y 20 caracteres") // Validación: el nombre debe tener entre 3 y 20 caracteres
     private String nombre;
     @Column
     @NotBlank(message = "apellido es requerido")
-    @NotNull(message = "el apellido es requerido")
+    @NotNull(message = "el apellido es requerido") // Validación: el apellido no puede ser nulo
     @Size (min = 4, max = 10, message = "debe tener mas de 4 letras y menos de 10")
-    private String apellido;
+    private String apellido;  // @Size para controlar un texto y asegurarse de que cumpla ciertos límites antes de guardarlo o usarlo.
     @Column
-    private LocalDate fechaNac;
+    private LocalDate fechaNac; // Columna para la fecha de nacimiento
     @Column
-    private Boolean estado;
+    private Boolean estado; // Columna para el estado del conductor 
 
-    @OneToOne(mappedBy = "conductor")
-    @JsonIgnore
+    @OneToOne(mappedBy = "conductor")  
+    @JsonIgnore  
     private Vehiculo vehiculo;
 
     public Conductor() {
     }
 
-    // Constructor parametrizado
+    
     public Conductor(Integer dni, String nombre, String apellido, LocalDate fechaNac, Boolean estado) {
         this.dni = dni;
         this.nombre = nombre;
@@ -48,12 +48,12 @@ public class Conductor {
         this.fechaNac = fechaNac;
         this.estado = estado;
     }
-
-    public Integer getDni() {
+    
+    public Integer getDni() {        
         return dni;
     }
 
-    public void setDni(Integer dni) {
+    public void setDni(Integer dni) {   
         this.dni = dni;
     }
 

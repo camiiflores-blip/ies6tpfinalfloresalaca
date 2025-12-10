@@ -22,9 +22,7 @@ public class UsuarioController {
     @GetMapping("/usuario")
     public ModelAndView getUsuario() {
 
-        // Usuario nuevoUsuario = new Usuario();
-        // nuevoUsuario.setApellido("Nuevo Apellido");
-        // nuevoUsuario.setNombre("Nuevo Nombre");
+       
 
         ModelAndView carrito = new ModelAndView("usuario");
         carrito.addObject("nuevoUsuario", usuarioService.crearNuevoUsuario());
@@ -37,11 +35,10 @@ public class UsuarioController {
     public ModelAndView saveUsuario(@ModelAttribute("nuevoUsuario") Usuario usuarioParaGuardar) {
 
         usuarioService.agregarUsuario(usuarioParaGuardar);
-        //System.out.println("usuario guardado");
-        // estructura de datos que permite almacenar datos
-        // guardar el alumno
+        
+
         ModelAndView modelView = new ModelAndView("listaUsuario");
-        //System.out.println("usuario guardado");
+        
         modelView.addObject("listadoUsuario", usuarioService.listarTodosLosUsuarios());
         return modelView;
 
