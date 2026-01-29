@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Conductores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1> LISTA DE CONDUCTORES </h1>
+        </header>
+        
+        <main>
+            <section class="tabla-contenedor">
+
+                <table class="table table-striped-columns table-primary table-danger">
+                    <thead>
+                        <tr>
+                            <th>DNI</th> 
+                            <th>Apellido</th>
+                            <th>Nombre</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Estado (Activo)</th> <th>Edición</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="Conductor : ${listadoConductor}"> 
+                            <td th:text="${Conductor.dni}"></td>
+                            <td th:text="${Conductor.apellido}"></td>
+                            <td th:text="${Conductor.nombre}"></td>
+                            <td th:text="${#temporals.format(Conductor.fechaNac, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${Conductor.estado} ? 'Activo' : 'Inactivo'"></td> 
+
+                            <td>
+                                <a th:href="@{'/eliminarConductor/'+${Conductor.dni}}" class="btn btn-sm btn-danger">Borrar</a>
+                                <a th:href="@{'/modificarConductor/'+${Conductor.dni}}" class="btn btn-sm btn-warning">Modificar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </section>
+            
+            <div class="botones mt-4">
+                <a href="/conductor" class="btn btn-info">NUEVO CONDUCTOR</a>
+                <a href="/" class="btn btn-success">INICIO</a>
+            </div>
+
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Viaje</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa; /* Fondo gris claro */
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .cost-info {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #e9ecef;
+            border-left: 5px solid #0d6efd;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-container">
+        
+        <header class="text-center mb-4">
+            <h1 class="display-6 text-primary">Registrar Viaje</h1>
+        </header>
+
+        <div class="cost-info">
+            <p class="fw-bold mb-1">💸 Tarifas de Viaje:</p>
+            <ul class="list-unstyled mb-0">
+                <li><span class="badge bg-primary">Corta distancia:</span> $7.000</li>
+                <li><span class="badge bg-success">Media distancia:</span> $10.000</li>
+                <li><span class="badge bg-warning text-dark">Larga distancia:</span> $20.000</li>
+            </ul>
+        </div>
+        <main>
+            <form th:object="${nuevoViaje}" th:action="@{/guardarViaje}" method="post" id="viajeForm">
+
+                <div class="mb-3">
+                    <label for="vehiculo" class="form-label fw-bold">Vehículo (Patente)</label>
+                    <input type="text" id="vehiculo" name="vehiculo.patente" th:value="*{vehiculo.patente}" class="form-control" readonly>
+                    <div class="form-text">Patente asignada automáticamente.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="usuario" class="form-label fw-bold">Usuario</label>
+                    <select id="usuario" name="usuario.dni" class="form-select" required>
+                        <option value="" disabled selected>Seleccione un usuario</option>
+                        <option th:each="u : ${listadoUsuario}" th:value="${u.dni}" 
+                                th:text="${u.nombre + ' ' + u.apellido}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="tipoViaje" class="form-label fw-bold">Tipo de Viaje</label>
+                    <select id="tipoViaje" name="tipoViaje" th:field="*{tipoViaje}" class="form-select" required>
+                        <option value="" disabled>Seleccione una opción</option>
+                        <option value="CORTA" th:selected="*{tipoViaje == 'CORTA'}">Corta distancia ($7.000)</option>
+                        <option value="MEDIA" th:selected="*{tipoViaje == 'MEDIA'}">Media distancia ($10.000)</option>
+                        <option value="LARGA" th:selected="*{tipoViaje == 'LARGA'}">Larga distancia ($20.000)</option>
+                    </select>
+                </div>
+
+                <input type="hidden" th:field="*{costo}" id="costoHidden">
+
+                <div class="mb-3">
+                    <label for="fechaViaje" class="form-label fw-bold">Fecha del Viaje</label>
+                    <input type="date" id="fechaViaje" name="fechaViaje" th:field="*{fechaViaje}" class="form-control" required>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-car-front-fill me-2"></i> REALIZAR VIAJE
+                    </button>
+                </div>
+            </form>
+        </main>
+        
+        <div class="text-center mt-4 border-top pt-3">
+            <a href="/listarViajes" class="btn btn-outline-secondary btn-custom">
+                <i class="bi bi-list-task me-1"></i> VER LISTA DE VIAJES
+            </a>
+            <a href="/" class="btn btn-outline-secondary btn-custom">
+                <i class="bi bi-house-door-fill me-1"></i> INICIO
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<footer class="text-center mt-5 py-3 text-muted">
+    <p class="mb-0">&copy; 2025 IES N.º6 - Todos los derechos reservados</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tipoViajeSelect = document.getElementById('tipoViaje');
+        const costoHidden = document.getElementById('costoHidden');
+
+        const tarifas = {
+            'CORTA': 7000,
+            'MEDIA': 10000,
+            'LARGA': 20000
+        };
+
+        function actualizarCosto() {
+            const tipoSeleccionado = tipoViajeSelect.value;
+            const costo = tarifas[tipoSeleccionado] || 0;
+            costoHidden.value = costo;
+            
+            // Opcional: Mostrar el costo actual al usuario si no es un campo oculto
+            // console.log("Costo actualizado a: $" + costo);
+        }
+
+        // Ejecutar al cargar la página (para precargar el costo si th:field ya tiene un valor)
+        actualizarCosto();
+
+        // Ejecutar cada vez que cambia la selección
+        tipoViajeSelect.addEventListener('change', actualizarCosto);
+    });
+</script>
+
+</body>
+</html>
